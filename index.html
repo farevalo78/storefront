@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador de Storefront</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏪 Cotizador de Storefront</h1>
+            <p>Sube tu dibujo con medidas y obtén la cotización automática</p>
+        </header>
+
+        <main>
+            <!-- Sección de Carga de Imagen -->
+            <section class="upload-section">
+                <h2>Paso 1: Carga tu Dibujo</h2>
+                <div class="upload-area" id="uploadArea">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p>Arrastra tu imagen aquí o haz clic para seleccionar</p>
+                    <input type="file" id="imageInput" accept="image/*" hidden>
+                </div>
+                <img id="previewImage" class="preview-image" alt="Vista previa">
+            </section>
+
+            <!-- Sección de Configuración -->
+            <section class="config-section">
+                <h2>Paso 2: Especificaciones</h2>
+                
+                <!-- Medidas Generales -->
+                <div class="form-group">
+                    <label>Ancho Total (pies):</label>
+                    <input type="number" id="width" placeholder="Ej: 10" min="0" step="0.5">
+                </div>
+
+                <div class="form-group">
+                    <label>Alto Total (pies):</label>
+                    <input type="number" id="height" placeholder="Ej: 8" min="0" step="0.5">
+                </div>
+
+                <!-- Configuración de Puertas -->
+                <div class="section-divider">
+                    <h3>Puertas (36")</h3>
+                </div>
+
+                <div class="form-group">
+                    <label>Cantidad de Puertas:</label>
+                    <input type="number" id="doorCount" value="1" min="0" step="1">
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo de Puerta:</label>
+                    <select id="doorType">
+                        <option value="">-- Selecciona --</option>
+                        <option value="wide">Wide (Ancho)</option>
+                        <option value="medium">Medium (Medio)</option>
+                        <option value="small">Small (Pequeño)</option>
+                    </select>
+                    <span class="price-info">$1,200 por puerta</span>
+                </div>
+
+                <!-- Configuración de Marco (Frames) -->
+                <div class="section-divider">
+                    <h3>Marco (Frames)</h3>
+                </div>
+
+                <div class="price-info">
+                    Precio: $19 por pie lineal
+                </div>
+
+                <!-- Configuración de Vidrio -->
+                <div class="section-divider">
+                    <h3>Vidrio</h3>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo de Vidrio:</label>
+                    <select id="glassType">
+                        <option value="">-- Selecciona --</option>
+                        <option value="ugu">IGU - $10 por pie²</option>
+                        <option value="tempered">Tempered - $15 por pie²</option>
+                        <option value="laminated">Laminated - $8 por pie²</option>
+                    </select>
+                </div>
+
+                <!-- Notas Adicionales -->
+                <div class="form-group">
+                    <label>Notas Adicionales:</label>
+                    <textarea id="notes" placeholder="Ej: Especificaciones especiales, materiales adicionales, etc."></textarea>
+                </div>
+            </section>
+
+            <!-- Sección de Cotización -->
+            <section class="quote-section">
+                <h2>Paso 3: Tu Cotización</h2>
+                
+                <div class="quote-box">
+                    <div class="quote-item">
+                        <span>Marco (Frames):</span>
+                        <span id="framesCost">$0.00</span>
+                    </div>
+                    <div class="quote-item">
+                        <span>Puertas:</span>
+                        <span id="doorsCost">$0.00</span>
+                    </div>
+                    <div class="quote-item">
+                        <span>Vidrio:</span>
+                        <span id="glassCost">$0.00</span>
+                    </div>
+                    <div class="quote-item">
+                        <span>Área Total de Vidrio:</span>
+                        <span id="glassArea">0 pie²</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="quote-total">
+                        <span>TOTAL:</span>
+                        <span id="totalCost">$0.00</span>
+                    </div>
+                </div>
+
+                <button id="generateQuote" class="btn-primary">Generar Cotización</button>
+                <button id="downloadQuote" class="btn-secondary">Descargar Cotización (PDF)</button>
+                <button id="resetForm" class="btn-secondary">Limpiar Formulario</button>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Cotizador de Storefront. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
