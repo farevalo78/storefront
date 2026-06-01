@@ -5,18 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cotizador de Storefront</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/opencv.js@4.8.0/opencv.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>🏪 Cotizador de Storefront</h1>
-            <p>Sube tu dibujo con medidas y obtén la cotización automática</p>
+            <p>Sube tu dibujo con medidas en pulgadas y obtén la cotización automática</p>
         </header>
 
         <main>
             <!-- Sección de Carga de Imagen -->
             <section class="upload-section">
                 <h2>Paso 1: Carga tu Dibujo</h2>
+                <p class="info-text">📌 Asegúrate de que el dibujo contenga todas las medidas en pulgadas claramente visibles</p>
                 <div class="upload-area" id="uploadArea">
                     <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -27,23 +30,42 @@
                     <input type="file" id="imageInput" accept="image/*" hidden>
                 </div>
                 <img id="previewImage" class="preview-image" alt="Vista previa">
+                <div id="loadingSpinner" class="loading-spinner" style="display:none;">
+                    <div class="spinner"></div>
+                    <p>Analizando dibujo y extrayendo medidas...</p>
+                </div>
+            </section>
+
+            <!-- Canvas oculto para procesamiento -->
+            <canvas id="canvas" style="display:none;"></canvas>
+
+            <!-- Sección de Medidas Extraídas -->
+            <section id="extractedMeasures" class="extracted-section" style="display:none;">
+                <h2>Paso 2: Medidas Extraídas del Dibujo</h2>
+                <div class="measures-box">
+                    <div class="measure-item">
+                        <span>Medidas Detectadas (pulgadas):</span>
+                        <span id="extractedText" class="extracted-text">-</span>
+                    </div>
+                    <div class="measure-item">
+                        <span>Perímetro Total Detectado:</span>
+                        <span id="totalPerimeter">0 pulgadas</span>
+                    </div>
+                    <div class="measure-item">
+                        <span>Perímetro en Pies:</span>
+                        <span id="totalPerimeterFeet">0 pies</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Ajustar Perímetro Manualmente (opcional):</label>
+                    <input type="number" id="manualPerimeter" placeholder="Ingresa el perímetro en pulgadas" step="0.5" min="0">
+                </div>
             </section>
 
             <!-- Sección de Configuración -->
-            <section class="config-section">
-                <h2>Paso 2: Especificaciones</h2>
+            <section id="configSection" class="config-section" style="display:none;">
+                <h2>Paso 3: Especificaciones Adicionales</h2>
                 
-                <!-- Medidas Generales -->
-                <div class="form-group">
-                    <label>Ancho Total (pies):</label>
-                    <input type="number" id="width" placeholder="Ej: 10" min="0" step="0.5">
-                </div>
-
-                <div class="form-group">
-                    <label>Alto Total (pies):</label>
-                    <input type="number" id="height" placeholder="Ej: 8" min="0" step="0.5">
-                </div>
-
                 <!-- Configuración de Puertas -->
                 <div class="section-divider">
                     <h3>Puertas (36")</h3>
@@ -97,8 +119,8 @@
             </section>
 
             <!-- Sección de Cotización -->
-            <section class="quote-section">
-                <h2>Paso 3: Tu Cotización</h2>
+            <section id="quoteSection" class="quote-section" style="display:none;">
+                <h2>Paso 4: Tu Cotización</h2>
                 
                 <div class="quote-box">
                     <div class="quote-item">
@@ -125,8 +147,8 @@
                 </div>
 
                 <button id="generateQuote" class="btn-primary">Generar Cotización</button>
-                <button id="downloadQuote" class="btn-secondary">Descargar Cotización (PDF)</button>
-                <button id="resetForm" class="btn-secondary">Limpiar Formulario</button>
+                <button id="downloadQuote" class="btn-secondary">Descargar Cotización (TXT)</button>
+                <button id="resetForm" class="btn-secondary">Comenzar de Nuevo</button>
             </section>
         </main>
 
