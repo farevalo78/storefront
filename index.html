@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storefront Quote</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .radio-item,
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 8px;
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        .radio-item label,
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+
+        .quote-result {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: center;
+            display: none;
+        }
+
+        .quote-result.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .quote-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .quote-price {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .quote-currency {
+            font-size: 24px;
+            vertical-align: super;
+        }
+
+        .quote-breakdown {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .breakdown-item:last-child {
+            margin-bottom: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            padding-top: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .error-message {
+            color: #d32f2f;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .quote-price {
+                font-size: 36px;
+            }
+
+            .radio-group,
+            .checkbox-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏢 Storefront Quote</h1>
+            <p>Calcula el precio de tu proyecto de storefront</p>
+        </div>
+
+        <form id="quoteForm">
+            <!-- SECCIÓN 1: INFORMACIÓN DEL PROYECTO -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">1</span>
+                    Información del Proyecto
+                </div>
+
+                <div class="form-group">
+                    <label for="client">Cliente *</label>
+                    <input type="text" id="client" name="client" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mgm">MGM *</label>
+                    <input type="text" id="mgm" name="mgm" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="job">Job *</label>
+                    <input type="text" id="job" name="job" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Fecha *</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 2: INFORMACIÓN DEL STOREFRONT -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">2</span>
+                    Información del Storefront
+                </div>
+
+                <div class="form-group">
+                    <label for="inchFrame">Inch Frame (en pulgadas) *</label>
+                    <input type="number" id="inchFrame" name="inchFrame" min="0" step="0.1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="corners">Cantidad de Corners *</label>
+                    <input type="number" id="corners" name="corners" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipo de Vidrio *</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="glass1" name="glass" value="1/4 laminated" required>
+                            <label for="glass1">1/4" Laminated</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="glass2" name="glass" value="1 IGU" required>
+                            <label for="glass2">1" IGU</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="glass3" name="glass" value="1/4 tempered" required>
+                            <label for="glass3">1/4" Tempered</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="laborDays">Labor Days (días de trabajo) *</label>
+                    <input type="number" id="laborDays" name="laborDays" min="0" step="0.5" required>
+                </div>
+            </div>
+
+            <!-- SECCIÓN 3: PUERTA -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="section-number">3</span>
+                    ¿Incluye Puerta?
+                </div>
+
+                <div class="form-group">
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="doorNo" name="includeDoor" value="no" checked>
+                            <label for="doorNo">No</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="doorYes" name="includeDoor" value="yes">
+                            <label for="doorYes">Sí</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUBSECCIÓN: DETALLES DE PUERTA -->
+                <div id="doorDetailsSection" class="hidden">
+                    <div class="form-group">
+                        <label>Tamaño de Puerta *</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="doorNarrow" name="doorSize" value="narrow">
+                                <label for="doorNarrow">Narrow</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="doorMedium" name="doorSize" value="medium">
+                                <label for="doorMedium">Medium</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="doorWide" name="doorSize" value="wide">
+                                <label for="doorWide">Wide</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bisagras *</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="hingesContinuous" name="hinges" value="continuous">
+                                <label for="hingesContinuous">Continuous Hinges</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="hingesButt" name="hinges" value="butt">
+                                <label for="hingesButt">Butt Hinge</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Manija/Handle *</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="handleLadder" name="handle" value="ladder">
+                                <label for="handleLadder">Ladder Handle</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="handlePush" name="handle" value="pushpull">
+                                <label for="handlePush">Push/Pull</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cierre de Puerta *</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="closerSurface" name="doorCloser" value="surface">
+                                <label for="closerSurface">Surface</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="closerConcealed" name="doorCloser" value="concealed">
+                                <label for="closerConcealed">Concealed</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="doorQuantity">¿Cuántas Puertas? *</label>
+                        <input type="number" id="doorQuantity" name="doorQuantity" min="1" value="1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTONES DE ACCIÓN -->
+            <div class="button-group">
+                <button type="button" class="btn-calculate" onclick="calculateQuote()">Calcular Cotización</button>
+                <button type="reset" class="btn-reset">Limpiar Formulario</button>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+        </form>
+
+        <!-- RESULTADO DE COTIZACIÓN -->
+        <div class="quote-result" id="quoteResult">
+            <div class="quote-label">Cotización para:</div>
+            <div id="quoteProjectInfo" style="font-size: 14px; margin-bottom: 10px;"></div>
+            <div class="quote-label">Precio Total</div>
+            <div class="quote-price">
+                <span class="quote-currency">$</span><span id="quoteTotal">0.00</span>
+            </div>
+            <div class="quote-breakdown" id="quoteBreakdown"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar/ocultar sección de detalles de puerta
+        document.querySelectorAll('input[name="includeDoor"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const doorDetailsSection = document.getElementById('doorDetailsSection');
+                if (this.value === 'yes') {
+                    doorDetailsSection.classList.remove('hidden');
+                } else {
+                    doorDetailsSection.classList.add('hidden');
+                    // Limpiar selecciones de puerta
+                    document.querySelectorAll('input[name="doorSize"], input[name="hinges"], input[name="handle"], input[name="doorCloser"]').forEach(el => el.checked = false);
+                }
+            });
+        });
+
+        function calculateQuote() {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.style.display = 'none';
+
+            // Validar campos requeridos
+            const client = document.getElementById('client').value.trim();
+            const mgm = document.getElementById('mgm').value.trim();
+            const job = document.getElementById('job').value.trim();
+            const date = document.getElementById('date').value;
+            const inchFrame = parseFloat(document.getElementById('inchFrame').value);
+            const corners = parseInt(document.getElementById('corners').value);
+            const glass = document.querySelector('input[name="glass"]:checked');
+            const laborDays = parseFloat(document.getElementById('laborDays').value);
+            const includeDoor = document.querySelector('input[name="includeDoor"]:checked').value;
+
+            // Validar información básica
+            if (!client || !mgm || !job || !date) {
+                showError('Por favor completa toda la información del proyecto');
+                return;
+            }
+
+            if (isNaN(inchFrame) || inchFrame <= 0) {
+                showError('Inch Frame debe ser un número positivo');
+                return;
+            }
+
+            if (isNaN(corners) || corners < 0) {
+                showError('Corners debe ser un número');
+                return;
+            }
+
+            if (!glass) {
+                showError('Por favor selecciona un tipo de vidrio');
+                return;
+            }
+
+            if (isNaN(laborDays) || laborDays < 0) {
+                showError('Labor Days debe ser un número válido');
+                return;
+            }
+
+            let totalPrice = 0;
+            let breakdown = [];
+
+            // CÁLCULO 1: Inch Frame (divide por 12 y multiplica por 24)
+            const framePrice = (inchFrame / 12) * 24;
+            totalPrice += framePrice;
+            breakdown.push({ label: `Inch Frame (${inchFrame}″): (${inchFrame} ÷ 12) × 24`, value: framePrice });
+
+            // CÁLCULO 2: Corners (multiplica por 30)
+            const cornersPrice = corners * 30;
+            totalPrice += cornersPrice;
+            breakdown.push({ label: `Corners (${corners}): ${corners} × 30`, value: cornersPrice });
+
+            // CÁLCULO 3: Tipo de Vidrio
+            let glassPrice = 0;
+            if (glass.value === '1/4 laminated') {
+                glassPrice = inchFrame * 20;
+                breakdown.push({ label: `Vidrio 1/4" Laminated: ${inchFrame} × 20`, value: glassPrice });
+            } else if (glass.value === '1 IGU') {
+                glassPrice = inchFrame * 30;
+                breakdown.push({ label: `Vidrio 1" IGU: ${inchFrame} × 30`, value: glassPrice });
+            } else if (glass.value === '1/4 tempered') {
+                glassPrice = inchFrame * 15;
+                breakdown.push({ label: `Vidrio 1/4" Tempered: ${inchFrame} × 15`, value: glassPrice });
+            }
+            totalPrice += glassPrice;
+
+            // CÁLCULO 4: Labor Days
+            const laborPrice = laborDays * 100; // $100 por día de trabajo
+            totalPrice += laborPrice;
+            breakdown.push({ label: `Labor Days (${laborDays}): ${laborDays} × 100`, value: laborPrice });
+
+            // CÁLCULO 5: Accesorios de Puerta (si aplica)
+            let doorAccessoriesPrice = 0;
+            let doorQuantity = 1;
+
+            if (includeDoor === 'yes') {
+                const doorSize = document.querySelector('input[name="doorSize"]:checked');
+                const hinges = document.querySelector('input[name="hinges"]:checked');
+                const handle = document.querySelector('input[name="handle"]:checked');
+                const doorCloser = document.querySelector('input[name="doorCloser"]:checked');
+                doorQuantity = parseInt(document.getElementById('doorQuantity').value) || 1;
+
+                if (!doorSize || !hinges || !handle || !doorCloser) {
+                    showError('Por favor completa todos los detalles de la puerta');
+                    return;
+                }
+
+                // Precio del tamaño de puerta
+                let doorSizePrice = 0;
+                if (doorSize.value === 'narrow') {
+                    doorSizePrice = 800;
+                } else if (doorSize.value === 'medium') {
+                    doorSizePrice = 925;
+                } else if (doorSize.value === 'wide') {
+                    doorSizePrice = 1100;
+                }
+
+                // Precio de bisagras
+                let hingesPrice = 0;
+                if (hinges.value === 'continuous') {
+                    hingesPrice = 228;
+                } else if (hinges.value === 'butt') {
+                    hingesPrice = 300;
+                }
+
+                // Precio de handle
+                let handlePrice = 0;
+                if (handle.value === 'ladder') {
+                    handlePrice = 630;
+                } else if (handle.value === 'pushpull') {
+                    handlePrice = 0; // No tiene precio adicional
+                }
+
+                // Sumar accesorios
+                doorAccessoriesPrice = (doorSizePrice + hingesPrice + handlePrice) * doorQuantity;
+
+                breakdown.push({ label: `Puerta ${doorSize.value} (${doorSize.value === 'narrow' ? '$800' : doorSize.value === 'medium' ? '$925' : '$1100'}) × ${doorQuantity}`, value: doorSizePrice * doorQuantity });
+                breakdown.push({ label: `Bisagras ${hinges.value} ($${hingesPrice}) × ${doorQuantity}`, value: hingesPrice * doorQuantity });
+                if (handlePrice > 0) {
+                    breakdown.push({ label: `${handle.value === 'ladder' ? 'Ladder' : 'Push/Pull'} Handle ($${handlePrice}) × ${doorQuantity}`, value: handlePrice * doorQuantity });
+                }
+
+                totalPrice += doorAccessoriesPrice;
+            }
+
+            // Mostrar resultado
+            const quoteResult = document.getElementById('quoteResult');
+            const quoteProjectInfo = document.getElementById('quoteProjectInfo');
+            const quoteTotal = document.getElementById('quoteTotal');
+            const quoteBreakdown = document.getElementById('quoteBreakdown');
+
+            quoteProjectInfo.innerHTML = `<strong>${client}</strong> | MGM: ${mgm} | Job: ${job} | ${new Date(date).toLocaleDateString('es-ES')}`;
+
+            quoteTotal.textContent = totalPrice.toFixed(2);
+
+            let breakdownHTML = '';
+            breakdown.forEach((item) => {
+                breakdownHTML += `<div class="breakdown-item"><span>${item.label}</span><span>$${item.value.toFixed(2)}</span></div>`;
+            });
+
+            // Agregar total
+            breakdownHTML += `<div class="breakdown-item"><span style="font-size: 14px;">TOTAL</span><span>$${totalPrice.toFixed(2)}</span></div>`;
+
+            quoteBreakdown.innerHTML = breakdownHTML;
+            quoteResult.classList.add('show');
+        }
+
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            document.getElementById('quoteResult').classList.remove('show');
+        }
+
+        // Reset del formulario
+        document.getElementById('quoteForm').addEventListener('reset', function() {
+            document.getElementById('doorDetailsSection').classList.add('hidden');
+            document.getElementById('quoteResult').classList.remove('show');
+            document.getElementById('errorMessage').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
