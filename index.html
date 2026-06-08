@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -280,19 +280,19 @@
     <div class="container">
         <div class="header">
             <h1>🏢 Storefront Quote</h1>
-            <p>Calcula el precio de tu proyecto de storefront</p>
+            <p>Calculate the price of your storefront project</p>
         </div>
 
         <form id="quoteForm">
-            <!-- SECCIÓN 1: INFORMACIÓN DEL PROYECTO -->
+            <!-- SECTION 1: PROJECT INFORMATION -->
             <div class="section">
                 <div class="section-title">
                     <span class="section-number">1</span>
-                    Información del Proyecto
+                    Project Information
                 </div>
 
                 <div class="form-group">
-                    <label for="client">Cliente *</label>
+                    <label for="client">Client *</label>
                     <input type="text" id="client" name="client" required>
                 </div>
 
@@ -307,30 +307,30 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="date">Fecha *</label>
+                    <label for="date">Date *</label>
                     <input type="date" id="date" name="date" required>
                 </div>
             </div>
 
-            <!-- SECCIÓN 2: INFORMACIÓN DEL STOREFRONT -->
+            <!-- SECTION 2: STOREFRONT INFORMATION -->
             <div class="section">
                 <div class="section-title">
                     <span class="section-number">2</span>
-                    Información del Storefront
+                    Storefront Information
                 </div>
 
                 <div class="form-group">
-                    <label for="inchFrame">Inch Frame (en pulgadas) *</label>
+                    <label for="inchFrame">Inch Frame (inches) *</label>
                     <input type="number" id="inchFrame" name="inchFrame" min="0" step="0.1" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="corners">Cantidad de Corners *</label>
+                    <label for="corners">Number of Corners *</label>
                     <input type="number" id="corners" name="corners" min="0" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Tipo de Vidrio *</label>
+                    <label>Glass Type *</label>
                     <div class="radio-group">
                         <div class="radio-item">
                             <input type="radio" id="glass1" name="glass" value="1/4 laminated" required>
@@ -348,16 +348,16 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="laborDays">Labor Days (días de trabajo) *</label>
+                    <label for="laborDays">Labor Days *</label>
                     <input type="number" id="laborDays" name="laborDays" min="0" step="0.5" required>
                 </div>
             </div>
 
-            <!-- SECCIÓN 3: PUERTA -->
+            <!-- SECTION 3: DOOR -->
             <div class="section">
                 <div class="section-title">
                     <span class="section-number">3</span>
-                    ¿Incluye Puerta?
+                    Includes Door?
                 </div>
 
                 <div class="form-group">
@@ -368,15 +368,15 @@
                         </div>
                         <div class="radio-item">
                             <input type="radio" id="doorYes" name="includeDoor" value="yes">
-                            <label for="doorYes">Sí</label>
+                            <label for="doorYes">Yes</label>
                         </div>
                     </div>
                 </div>
 
-                <!-- SUBSECCIÓN: DETALLES DE PUERTA -->
+                <!-- SUBSECTION: DOOR DETAILS -->
                 <div id="doorDetailsSection" class="hidden">
                     <div class="form-group">
-                        <label>Tamaño de Puerta *</label>
+                        <label>Door Size *</label>
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" id="doorNarrow" name="doorSize" value="narrow">
@@ -394,7 +394,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Bisagras *</label>
+                        <label>Hinges *</label>
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" id="hingesContinuous" name="hinges" value="continuous">
@@ -408,7 +408,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Manija/Handle *</label>
+                        <label>Handle *</label>
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" id="handleLadder" name="handle" value="ladder">
@@ -422,7 +422,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Cierre de Puerta *</label>
+                        <label>Door Closer *</label>
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" id="closerSurface" name="doorCloser" value="surface">
@@ -436,12 +436,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="doorQuantity">¿Cuántas Puertas? *</label>
+                        <label for="doorQuantity">Number of Doors *</label>
                         <input type="number" id="doorQuantity" name="doorQuantity" min="1" value="1">
                     </div>
 
                     <div class="form-group">
-                        <label>¿Incluye Lock Set? *</label>
+                        <label>Includes Lock Set? *</label>
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" id="lockSetNo" name="includeLockSet" value="no" checked>
@@ -449,34 +449,34 @@
                             </div>
                             <div class="radio-item">
                                 <input type="radio" id="lockSetYes" name="includeLockSet" value="yes">
-                                <label for="lockSetYes">Sí ($240)</label>
+                                <label for="lockSetYes">Yes ($240)</label>
                             </div>
                         </div>
                     </div>
 
                     <div id="lockSetQuantitySection" class="hidden">
                         <div class="form-group">
-                            <label for="lockSetQuantity">Cantidad de Lock Sets *</label>
+                            <label for="lockSetQuantity">Number of Lock Sets *</label>
                             <input type="number" id="lockSetQuantity" name="lockSetQuantity" min="1" value="1">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- BOTONES DE ACCIÓN -->
+            <!-- ACTION BUTTONS -->
             <div class="button-group">
-                <button type="button" class="btn-calculate" onclick="calculateQuote()">Calcular Cotización</button>
-                <button type="reset" class="btn-reset">Limpiar Formulario</button>
+                <button type="button" class="btn-calculate" onclick="calculateQuote()">Calculate Quote</button>
+                <button type="reset" class="btn-reset">Clear Form</button>
             </div>
 
             <div class="error-message" id="errorMessage"></div>
         </form>
 
-        <!-- RESULTADO DE COTIZACIÓN -->
+        <!-- QUOTE RESULT -->
         <div class="quote-result" id="quoteResult">
-            <div class="quote-label">Cotización para:</div>
+            <div class="quote-label">Quote for:</div>
             <div id="quoteProjectInfo" style="font-size: 14px; margin-bottom: 10px;"></div>
-            <div class="quote-label">Precio Total</div>
+            <div class="quote-label">Total Price</div>
             <div class="quote-price">
                 <span class="quote-currency">$</span><span id="quoteTotal">0.00</span>
             </div>
@@ -485,7 +485,7 @@
     </div>
 
     <script>
-        // Mostrar/ocultar sección de detalles de puerta
+        // Show/hide door details section
         document.querySelectorAll('input[name="includeDoor"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 const doorDetailsSection = document.getElementById('doorDetailsSection');
@@ -493,7 +493,7 @@
                     doorDetailsSection.classList.remove('hidden');
                 } else {
                     doorDetailsSection.classList.add('hidden');
-                    // Limpiar selecciones de puerta
+                    // Clear door selections
                     document.querySelectorAll('input[name="doorSize"], input[name="hinges"], input[name="handle"], input[name="doorCloser"], input[name="includeLockSet"]').forEach(el => el.checked = false);
                     document.getElementById('lockSetNo').checked = true;
                     document.getElementById('lockSetQuantitySection').classList.add('hidden');
@@ -501,7 +501,7 @@
             });
         });
 
-        // Mostrar/ocultar sección de cantidad de Lock Set
+        // Show/hide lock set quantity section
         document.querySelectorAll('input[name="includeLockSet"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 const lockSetQuantitySection = document.getElementById('lockSetQuantitySection');
@@ -517,7 +517,7 @@
             const errorMessage = document.getElementById('errorMessage');
             errorMessage.style.display = 'none';
 
-            // Validar campos requeridos
+            // Validate required fields
             const client = document.getElementById('client').value.trim();
             const mgm = document.getElementById('mgm').value.trim();
             const job = document.getElementById('job').value.trim();
@@ -528,65 +528,65 @@
             const laborDays = parseFloat(document.getElementById('laborDays').value);
             const includeDoor = document.querySelector('input[name="includeDoor"]:checked').value;
 
-            // Validar información básica
+            // Validate basic information
             if (!client || !mgm || !job || !date) {
-                showError('Por favor completa toda la información del proyecto');
+                showError('Please complete all project information');
                 return;
             }
 
             if (isNaN(inchFrame) || inchFrame <= 0) {
-                showError('Inch Frame debe ser un número positivo');
+                showError('Inch Frame must be a positive number');
                 return;
             }
 
             if (isNaN(corners) || corners < 0) {
-                showError('Corners debe ser un número');
+                showError('Corners must be a valid number');
                 return;
             }
 
             if (!glass) {
-                showError('Por favor selecciona un tipo de vidrio');
+                showError('Please select a glass type');
                 return;
             }
 
             if (isNaN(laborDays) || laborDays < 0) {
-                showError('Labor Days debe ser un número válido');
+                showError('Labor Days must be a valid number');
                 return;
             }
 
             let totalPrice = 0;
             let breakdown = [];
 
-            // CÁLCULO 1: Inch Frame (divide por 12 y multiplica por 24)
+            // CALCULATION 1: Inch Frame (divide by 12 and multiply by 24)
             const framePrice = (inchFrame / 12) * 24;
             totalPrice += framePrice;
             breakdown.push({ label: `Inch Frame (${inchFrame}″): (${inchFrame} ÷ 12) × 24`, value: framePrice });
 
-            // CÁLCULO 2: Corners (multiplica por 30)
+            // CALCULATION 2: Corners (multiply by 30)
             const cornersPrice = corners * 30;
             totalPrice += cornersPrice;
             breakdown.push({ label: `Corners (${corners}): ${corners} × 30`, value: cornersPrice });
 
-            // CÁLCULO 3: Tipo de Vidrio
+            // CALCULATION 3: Glass Type
             let glassPrice = 0;
             if (glass.value === '1/4 laminated') {
                 glassPrice = inchFrame * 20;
-                breakdown.push({ label: `Vidrio 1/4" Laminated: ${inchFrame} × 20`, value: glassPrice });
+                breakdown.push({ label: `Glass 1/4" Laminated: ${inchFrame} × 20`, value: glassPrice });
             } else if (glass.value === '1 IGU') {
                 glassPrice = inchFrame * 30;
-                breakdown.push({ label: `Vidrio 1" IGU: ${inchFrame} × 30`, value: glassPrice });
+                breakdown.push({ label: `Glass 1" IGU: ${inchFrame} × 30`, value: glassPrice });
             } else if (glass.value === '1/4 tempered') {
                 glassPrice = inchFrame * 15;
-                breakdown.push({ label: `Vidrio 1/4" Tempered: ${inchFrame} × 15`, value: glassPrice });
+                breakdown.push({ label: `Glass 1/4" Tempered: ${inchFrame} × 15`, value: glassPrice });
             }
             totalPrice += glassPrice;
 
-            // CÁLCULO 4: Labor Days
-            const laborPrice = laborDays * 100; // $100 por día de trabajo
+            // CALCULATION 4: Labor Days
+            const laborPrice = laborDays * 100; // $100 per day
             totalPrice += laborPrice;
             breakdown.push({ label: `Labor Days (${laborDays}): ${laborDays} × 100`, value: laborPrice });
 
-            // CÁLCULO 5: Accesorios de Puerta (si aplica)
+            // CALCULATION 5: Door Accessories (if applicable)
             let doorAccessoriesPrice = 0;
             let doorQuantity = 1;
 
@@ -599,11 +599,11 @@
                 doorQuantity = parseInt(document.getElementById('doorQuantity').value) || 1;
 
                 if (!doorSize || !hinges || !handle || !doorCloser) {
-                    showError('Por favor completa todos los detalles de la puerta');
+                    showError('Please complete all door details');
                     return;
                 }
 
-                // Precio del tamaño de puerta
+                // Door size price
                 let doorSizePrice = 0;
                 if (doorSize.value === 'narrow') {
                     doorSizePrice = 675;
@@ -613,7 +613,7 @@
                     doorSizePrice = 1050;
                 }
 
-                // Precio de bisagras
+                // Hinges price
                 let hingesPrice = 0;
                 if (hinges.value === 'continuous') {
                     hingesPrice = 228;
@@ -621,15 +621,15 @@
                     hingesPrice = 300;
                 }
 
-                // Precio de handle
+                // Handle price
                 let handlePrice = 0;
                 if (handle.value === 'ladder') {
                     handlePrice = 630;
                 } else if (handle.value === 'pushpull') {
-                    handlePrice = 0; // No tiene precio adicional
+                    handlePrice = 0; // No additional price
                 }
 
-                // Precio de cierre
+                // Door closer price
                 let closerPrice = 0;
                 if (doorCloser.value === 'surface') {
                     closerPrice = 210;
@@ -637,19 +637,19 @@
                     closerPrice = 690;
                 }
 
-                // Sumar accesorios de puerta
+                // Sum door accessories
                 doorAccessoriesPrice = (doorSizePrice + hingesPrice + handlePrice + closerPrice) * doorQuantity;
 
-                breakdown.push({ label: `Puerta ${doorSize.value.charAt(0).toUpperCase() + doorSize.value.slice(1)} ($${doorSizePrice}) × ${doorQuantity}`, value: doorSizePrice * doorQuantity });
-                breakdown.push({ label: `Bisagras ${hinges.value} ($${hingesPrice}) × ${doorQuantity}`, value: hingesPrice * doorQuantity });
+                breakdown.push({ label: `Door ${doorSize.value.charAt(0).toUpperCase() + doorSize.value.slice(1)} ($${doorSizePrice}) × ${doorQuantity}`, value: doorSizePrice * doorQuantity });
+                breakdown.push({ label: `Hinges ${hinges.value} ($${hingesPrice}) × ${doorQuantity}`, value: hingesPrice * doorQuantity });
                 if (handlePrice > 0) {
                     breakdown.push({ label: `Handle ($${handlePrice}) × ${doorQuantity}`, value: handlePrice * doorQuantity });
                 }
-                breakdown.push({ label: `Cierre ${doorCloser.value} ($${closerPrice}) × ${doorQuantity}`, value: closerPrice * doorQuantity });
+                breakdown.push({ label: `Door Closer ${doorCloser.value} ($${closerPrice}) × ${doorQuantity}`, value: closerPrice * doorQuantity });
 
                 totalPrice += doorAccessoriesPrice;
 
-                // CÁLCULO 6: Lock Set (si aplica)
+                // CALCULATION 6: Lock Set (if applicable)
                 if (includeLockSet && includeLockSet.value === 'yes') {
                     const lockSetQuantity = parseInt(document.getElementById('lockSetQuantity').value) || 1;
                     const lockSetPrice = 240 * lockSetQuantity;
@@ -658,13 +658,13 @@
                 }
             }
 
-            // Mostrar resultado
+            // Display result
             const quoteResult = document.getElementById('quoteResult');
             const quoteProjectInfo = document.getElementById('quoteProjectInfo');
             const quoteTotal = document.getElementById('quoteTotal');
             const quoteBreakdown = document.getElementById('quoteBreakdown');
 
-            quoteProjectInfo.innerHTML = `<strong>${client}</strong> | MGM: ${mgm} | Job: ${job} | ${new Date(date).toLocaleDateString('es-ES')}`;
+            quoteProjectInfo.innerHTML = `<strong>${client}</strong> | MGM: ${mgm} | Job: ${job} | ${new Date(date).toLocaleDateString('en-US')}`;
 
             quoteTotal.textContent = totalPrice.toFixed(2);
 
@@ -673,7 +673,7 @@
                 breakdownHTML += `<div class="breakdown-item"><span>${item.label}</span><span>$${item.value.toFixed(2)}</span></div>`;
             });
 
-            // Agregar total
+            // Add total
             breakdownHTML += `<div class="breakdown-item"><span style="font-size: 14px;">TOTAL</span><span>$${totalPrice.toFixed(2)}</span></div>`;
 
             quoteBreakdown.innerHTML = breakdownHTML;
@@ -687,7 +687,7 @@
             document.getElementById('quoteResult').classList.remove('show');
         }
 
-        // Reset del formulario
+        // Form reset
         document.getElementById('quoteForm').addEventListener('reset', function() {
             document.getElementById('doorDetailsSection').classList.add('hidden');
             document.getElementById('lockSetQuantitySection').classList.add('hidden');
