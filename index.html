@@ -256,48 +256,25 @@
             display: none;
         }
 
-        .pdf-button-group {
-            display: flex;
-            gap: 10px;
+        .btn-download-pdf {
+            width: 100%;
+            padding: 15px;
             margin-top: 20px;
-        }
-
-        .btn-pdf {
-            flex: 1;
-            padding: 12px;
             background: #4CAF50;
             color: white;
             border: none;
             border-radius: 5px;
             font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 14px;
+            display: block;
         }
 
-        .btn-pdf:hover {
+        .btn-download-pdf:hover {
             background: #45a049;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
-        }
-
-        .btn-print {
-            flex: 1;
-            padding: 12px;
-            background: #2196F3;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .btn-print:hover {
-            background: #0b7dda;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
         }
 
         @media (max-width: 600px) {
@@ -330,7 +307,7 @@
                 padding: 20px;
             }
 
-            .pdf-button-group,
+            .btn-download-pdf,
             .button-group,
             .error-message {
                 display: none !important;
@@ -546,10 +523,7 @@
                 <div class="quote-breakdown" id="quoteBreakdown"></div>
             </div>
             
-            <div class="pdf-button-group">
-                <button type="button" class="btn-pdf" onclick="downloadPDF()">📥 Download PDF</button>
-                <button type="button" class="btn-print" onclick="printQuote()">🖨️ Print</button>
-            </div>
+            <button type="button" class="btn-download-pdf" onclick="downloadPDF()">📥 Download PDF</button>
         </div>
     </div>
 
@@ -771,14 +745,6 @@
             };
 
             html2pdf().set(opt).from(element).save();
-        }
-
-        function printQuote() {
-            if (!window.quoteData) {
-                alert('Please calculate the quote first');
-                return;
-            }
-            window.print();
         }
 
         function showError(message) {
