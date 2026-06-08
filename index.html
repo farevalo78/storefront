@@ -380,15 +380,15 @@
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" id="doorNarrow" name="doorSize" value="narrow">
-                                <label for="doorNarrow">Narrow</label>
+                                <label for="doorNarrow">Narrow ($675)</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" id="doorMedium" name="doorSize" value="medium">
-                                <label for="doorMedium">Medium</label>
+                                <label for="doorMedium">Medium ($925)</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" id="doorWide" name="doorSize" value="wide">
-                                <label for="doorWide">Wide</label>
+                                <label for="doorWide">Wide ($1050)</label>
                             </div>
                         </div>
                     </div>
@@ -398,11 +398,11 @@
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" id="hingesContinuous" name="hinges" value="continuous">
-                                <label for="hingesContinuous">Continuous Hinges</label>
+                                <label for="hingesContinuous">Continuous Hinges ($228)</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" id="hingesButt" name="hinges" value="butt">
-                                <label for="hingesButt">Butt Hinge</label>
+                                <label for="hingesButt">Butt Hinge ($300)</label>
                             </div>
                         </div>
                     </div>
@@ -412,7 +412,7 @@
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" id="handleLadder" name="handle" value="ladder">
-                                <label for="handleLadder">Ladder Handle</label>
+                                <label for="handleLadder">Ladder Handle ($630)</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" id="handlePush" name="handle" value="pushpull">
@@ -426,11 +426,11 @@
                         <div class="radio-group">
                             <div class="radio-item">
                                 <input type="radio" id="closerSurface" name="doorCloser" value="surface">
-                                <label for="closerSurface">Surface</label>
+                                <label for="closerSurface">Surface ($210)</label>
                             </div>
                             <div class="radio-item">
                                 <input type="radio" id="closerConcealed" name="doorCloser" value="concealed">
-                                <label for="closerConcealed">Concealed</label>
+                                <label for="closerConcealed">Concealed ($690)</label>
                             </div>
                         </div>
                     </div>
@@ -438,6 +438,27 @@
                     <div class="form-group">
                         <label for="doorQuantity">¿Cuántas Puertas? *</label>
                         <input type="number" id="doorQuantity" name="doorQuantity" min="1" value="1">
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Incluye Lock Set? *</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="lockSetNo" name="includeLockSet" value="no" checked>
+                                <label for="lockSetNo">No</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="lockSetYes" name="includeLockSet" value="yes">
+                                <label for="lockSetYes">Sí ($240)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="lockSetQuantitySection" class="hidden">
+                        <div class="form-group">
+                            <label for="lockSetQuantity">Cantidad de Lock Sets *</label>
+                            <input type="number" id="lockSetQuantity" name="lockSetQuantity" min="1" value="1">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -473,7 +494,21 @@
                 } else {
                     doorDetailsSection.classList.add('hidden');
                     // Limpiar selecciones de puerta
-                    document.querySelectorAll('input[name="doorSize"], input[name="hinges"], input[name="handle"], input[name="doorCloser"]').forEach(el => el.checked = false);
+                    document.querySelectorAll('input[name="doorSize"], input[name="hinges"], input[name="handle"], input[name="doorCloser"], input[name="includeLockSet"]').forEach(el => el.checked = false);
+                    document.getElementById('lockSetNo').checked = true;
+                    document.getElementById('lockSetQuantitySection').classList.add('hidden');
+                }
+            });
+        });
+
+        // Mostrar/ocultar sección de cantidad de Lock Set
+        document.querySelectorAll('input[name="includeLockSet"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const lockSetQuantitySection = document.getElementById('lockSetQuantitySection');
+                if (this.value === 'yes') {
+                    lockSetQuantitySection.classList.remove('hidden');
+                } else {
+                    lockSetQuantitySection.classList.add('hidden');
                 }
             });
         });
@@ -560,6 +595,7 @@
                 const hinges = document.querySelector('input[name="hinges"]:checked');
                 const handle = document.querySelector('input[name="handle"]:checked');
                 const doorCloser = document.querySelector('input[name="doorCloser"]:checked');
+                const includeLockSet = document.querySelector('input[name="includeLockSet"]:checked');
                 doorQuantity = parseInt(document.getElementById('doorQuantity').value) || 1;
 
                 if (!doorSize || !hinges || !handle || !doorCloser) {
@@ -570,11 +606,11 @@
                 // Precio del tamaño de puerta
                 let doorSizePrice = 0;
                 if (doorSize.value === 'narrow') {
-                    doorSizePrice = 800;
+                    doorSizePrice = 675;
                 } else if (doorSize.value === 'medium') {
                     doorSizePrice = 925;
                 } else if (doorSize.value === 'wide') {
-                    doorSizePrice = 1100;
+                    doorSizePrice = 1050;
                 }
 
                 // Precio de bisagras
@@ -593,16 +629,33 @@
                     handlePrice = 0; // No tiene precio adicional
                 }
 
-                // Sumar accesorios
-                doorAccessoriesPrice = (doorSizePrice + hingesPrice + handlePrice) * doorQuantity;
-
-                breakdown.push({ label: `Puerta ${doorSize.value} (${doorSize.value === 'narrow' ? '$800' : doorSize.value === 'medium' ? '$925' : '$1100'}) × ${doorQuantity}`, value: doorSizePrice * doorQuantity });
-                breakdown.push({ label: `Bisagras ${hinges.value} ($${hingesPrice}) × ${doorQuantity}`, value: hingesPrice * doorQuantity });
-                if (handlePrice > 0) {
-                    breakdown.push({ label: `${handle.value === 'ladder' ? 'Ladder' : 'Push/Pull'} Handle ($${handlePrice}) × ${doorQuantity}`, value: handlePrice * doorQuantity });
+                // Precio de cierre
+                let closerPrice = 0;
+                if (doorCloser.value === 'surface') {
+                    closerPrice = 210;
+                } else if (doorCloser.value === 'concealed') {
+                    closerPrice = 690;
                 }
 
+                // Sumar accesorios de puerta
+                doorAccessoriesPrice = (doorSizePrice + hingesPrice + handlePrice + closerPrice) * doorQuantity;
+
+                breakdown.push({ label: `Puerta ${doorSize.value.charAt(0).toUpperCase() + doorSize.value.slice(1)} ($${doorSizePrice}) × ${doorQuantity}`, value: doorSizePrice * doorQuantity });
+                breakdown.push({ label: `Bisagras ${hinges.value} ($${hingesPrice}) × ${doorQuantity}`, value: hingesPrice * doorQuantity });
+                if (handlePrice > 0) {
+                    breakdown.push({ label: `Handle ($${handlePrice}) × ${doorQuantity}`, value: handlePrice * doorQuantity });
+                }
+                breakdown.push({ label: `Cierre ${doorCloser.value} ($${closerPrice}) × ${doorQuantity}`, value: closerPrice * doorQuantity });
+
                 totalPrice += doorAccessoriesPrice;
+
+                // CÁLCULO 6: Lock Set (si aplica)
+                if (includeLockSet && includeLockSet.value === 'yes') {
+                    const lockSetQuantity = parseInt(document.getElementById('lockSetQuantity').value) || 1;
+                    const lockSetPrice = 240 * lockSetQuantity;
+                    totalPrice += lockSetPrice;
+                    breakdown.push({ label: `Lock Set ($240) × ${lockSetQuantity}`, value: lockSetPrice });
+                }
             }
 
             // Mostrar resultado
@@ -637,8 +690,10 @@
         // Reset del formulario
         document.getElementById('quoteForm').addEventListener('reset', function() {
             document.getElementById('doorDetailsSection').classList.add('hidden');
+            document.getElementById('lockSetQuantitySection').classList.add('hidden');
             document.getElementById('quoteResult').classList.remove('show');
             document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('lockSetNo').checked = true;
         });
     </script>
 </body>
