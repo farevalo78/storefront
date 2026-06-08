@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Storefront Quote</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -255,6 +256,50 @@
             display: none;
         }
 
+        .pdf-button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-pdf {
+            flex: 1;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-pdf:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .btn-print {
+            flex: 1;
+            padding: 12px;
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-print:hover {
+            background: #0b7dda;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
@@ -272,6 +317,23 @@
             .checkbox-group {
                 flex-direction: column;
                 gap: 10px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+
+            .pdf-button-group,
+            .button-group,
+            .error-message {
+                display: none !important;
             }
         }
     </style>
@@ -474,13 +536,20 @@
 
         <!-- QUOTE RESULT -->
         <div class="quote-result" id="quoteResult">
-            <div class="quote-label">Quote for:</div>
-            <div id="quoteProjectInfo" style="font-size: 14px; margin-bottom: 10px;"></div>
-            <div class="quote-label">Total Price</div>
-            <div class="quote-price">
-                <span class="quote-currency">$</span><span id="quoteTotal">0.00</span>
+            <div id="quotePDFContent">
+                <div class="quote-label">Quote for:</div>
+                <div id="quoteProjectInfo" style="font-size: 14px; margin-bottom: 10px;"></div>
+                <div class="quote-label">Total Price</div>
+                <div class="quote-price">
+                    <span class="quote-currency">$</span><span id="quoteTotal">0.00</span>
+                </div>
+                <div class="quote-breakdown" id="quoteBreakdown"></div>
             </div>
-            <div class="quote-breakdown" id="quoteBreakdown"></div>
+            
+            <div class="pdf-button-group">
+                <button type="button" class="btn-pdf" onclick="downloadPDF()">📥 Download PDF</button>
+                <button type="button" class="btn-print" onclick="printQuote()">🖨️ Print</button>
+            </div>
         </div>
     </div>
 
@@ -658,6 +727,12 @@
                 }
             }
 
+            // Store data for PDF
+            window.quoteData = {
+                client, mgm, job, date,
+                totalPrice, breakdown
+            };
+
             // Display result
             const quoteResult = document.getElementById('quoteResult');
             const quoteProjectInfo = document.getElementById('quoteProjectInfo');
@@ -680,6 +755,32 @@
             quoteResult.classList.add('show');
         }
 
+        function downloadPDF() {
+            if (!window.quoteData) {
+                alert('Please calculate the quote first');
+                return;
+            }
+
+            const element = document.getElementById('quotePDFContent');
+            const opt = {
+                margin: 10,
+                filename: `Storefront_Quote_${window.quoteData.client}_${new Date().toISOString().split('T')[0]}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function printQuote() {
+            if (!window.quoteData) {
+                alert('Please calculate the quote first');
+                return;
+            }
+            window.print();
+        }
+
         function showError(message) {
             const errorMessage = document.getElementById('errorMessage');
             errorMessage.textContent = message;
@@ -694,6 +795,7 @@
             document.getElementById('quoteResult').classList.remove('show');
             document.getElementById('errorMessage').style.display = 'none';
             document.getElementById('lockSetNo').checked = true;
+            window.quoteData = null;
         });
     </script>
 </body>
