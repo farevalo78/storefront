@@ -277,6 +277,11 @@
             box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
         }
 
+        /* PDF Content Styles */
+        #pdfContent {
+            display: none;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 20px;
@@ -294,23 +299,6 @@
             .checkbox-group {
                 flex-direction: column;
                 gap: 10px;
-            }
-        }
-
-        @media print {
-            body {
-                background: white;
-            }
-
-            .container {
-                box-shadow: none;
-                padding: 20px;
-            }
-
-            .btn-download-pdf,
-            .button-group,
-            .error-message {
-                display: none !important;
             }
         }
     </style>
@@ -513,17 +501,35 @@
 
         <!-- QUOTE RESULT -->
         <div class="quote-result" id="quoteResult">
-            <div id="quotePDFContent">
-                <div class="quote-label">Quote for:</div>
-                <div id="quoteProjectInfo" style="font-size: 14px; margin-bottom: 10px;"></div>
-                <div class="quote-label">Total Price</div>
-                <div class="quote-price">
-                    <span class="quote-currency">$</span><span id="quoteTotal">0.00</span>
-                </div>
-                <div class="quote-breakdown" id="quoteBreakdown"></div>
+            <div class="quote-label">Quote for:</div>
+            <div id="quoteProjectInfo" style="font-size: 14px; margin-bottom: 10px;"></div>
+            <div class="quote-label">Total Price</div>
+            <div class="quote-price">
+                <span class="quote-currency">$</span><span id="quoteTotal">0.00</span>
             </div>
+            <div class="quote-breakdown" id="quoteBreakdown"></div>
             
             <button type="button" class="btn-download-pdf" onclick="downloadPDF()">📥 Download PDF</button>
+        </div>
+    </div>
+
+    <!-- Hidden PDF Content -->
+    <div id="pdfContent">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #333; font-size: 28px; margin-bottom: 10px;">Storefront Quote</h1>
+            <p id="pdfProjectInfo" style="color: #666; font-size: 12px;"></p>
+        </div>
+        
+        <div style="text-align: center; margin-bottom: 30px;">
+            <p style="color: #666; font-size: 12px; margin-bottom: 10px;">Total Price</p>
+            <div style="font-size: 36px; font-weight: bold; color: #333; margin-bottom: 20px;">
+                $<span id="pdfQuoteTotal">0.00</span>
+            </div>
+        </div>
+
+        <div style="text-align: left; background: #f9f9f9; padding: 20px; border-radius: 5px;">
+            <h3 style="color: #333; margin-bottom: 15px; font-size: 14px;">Price Breakdown</h3>
+            <div id="pdfQuoteBreakdown" style="font-size: 12px; line-height: 1.8;"></div>
         </div>
     </div>
 
@@ -707,13 +713,14 @@
                 totalPrice, breakdown
             };
 
-            // Display result
+            // Display result in web page
             const quoteResult = document.getElementById('quoteResult');
             const quoteProjectInfo = document.getElementById('quoteProjectInfo');
             const quoteTotal = document.getElementById('quoteTotal');
             const quoteBreakdown = document.getElementById('quoteBreakdown');
 
-            quoteProjectInfo.innerHTML = `<strong>${client}</strong> | MGM: ${mgm} | Job: ${job} | ${new Date(date).toLocaleDateString('en-US')}`;
+            const formattedDate = new Date(date).toLocaleDateString('en-US');
+            quoteProjectInfo.innerHTML = `<strong>${client}</strong> | MGM: ${mgm} | Job: ${job} | ${formattedDate}`;
 
             quoteTotal.textContent = totalPrice.toFixed(2);
 
@@ -727,6 +734,18 @@
 
             quoteBreakdown.innerHTML = breakdownHTML;
             quoteResult.classList.add('show');
+
+            // Update PDF content
+            document.getElementById('pdfProjectInfo').innerHTML = `<strong>${client}</strong> | MGM: ${mgm} | Job: ${job} | ${formattedDate}`;
+            document.getElementById('pdfQuoteTotal').textContent = totalPrice.toFixed(2);
+
+            let pdfBreakdownHTML = '';
+            breakdown.forEach((item) => {
+                pdfBreakdownHTML += `<div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>${item.label}</span><span>$${item.value.toFixed(2)}</span></div>`;
+            });
+            pdfBreakdownHTML += `<div style="display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 1px solid #ccc; font-weight: bold;"><span>TOTAL</span><span>$${totalPrice.toFixed(2)}</span></div>`;
+
+            document.getElementById('pdfQuoteBreakdown').innerHTML = pdfBreakdownHTML;
         }
 
         function downloadPDF() {
@@ -735,9 +754,9 @@
                 return;
             }
 
-            const element = document.getElementById('quotePDFContent');
+            const element = document.getElementById('pdfContent');
             const opt = {
-                margin: 10,
+                margin: 15,
                 filename: `Storefront_Quote_${window.quoteData.client}_${new Date().toISOString().split('T')[0]}.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2 },
